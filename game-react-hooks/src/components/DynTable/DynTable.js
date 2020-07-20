@@ -8,7 +8,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Search from "./Search/Search";
 import { Button } from "@material-ui/core";
-export default function DynTable({ headers, rows, newItem, searchBy }) {
+export default function DynTable({ headers, rows, newItem, searchBy, handleAction }) {
   const [filtered, setFiltered] = useState(rows);
   useEffect(() => {
     setFiltered(rows);
@@ -41,7 +41,7 @@ export default function DynTable({ headers, rows, newItem, searchBy }) {
                 <TableCell key={j + i}>{row[header.prop]}</TableCell>
               ))}
               <TableCell>
-                <Button variant="outlined" color="primary">
+                <Button variant="outlined" color="primary" onClick={() => handleAction(row._id)}>
                   Join
                 </Button>
               </TableCell>

@@ -32,6 +32,10 @@ const useLobbySocket = () => {
     socket.on("message", (data) => {
       setMessages(prev => [...prev, data]);
     });
+
+    return () => {
+      socket.disconnect();
+    }
   }, []);
 
   return [lobbyRooms, messages, addNewMessage];

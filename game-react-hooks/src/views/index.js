@@ -12,6 +12,7 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 import PrivateRoute from "./PrivateRoute";
 import Lobby from "./Lobby/Lobby";
 import NavBar from "../components/NavBar/NavBar";
+import { TicTacToe } from "./TicTacToe/TicTacToe";
 
 function Layout() {
   const loading = useAuthentication();
@@ -25,6 +26,7 @@ function Layout() {
           <Route exact path="/login" component={Login} />
           <Route path="/signup" component={Signup} exact />
           <PrivateRoute path="/lobby" exact component={Lobby} />
+          <PrivateRoute path="/tictactoe/:id" exact component={TicTacToe} />
           <Route render={() => <Redirect to="/login" />} />
         </Switch>
       </Router>

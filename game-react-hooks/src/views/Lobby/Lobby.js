@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { newGame } from "../../api/services/RoomService";
+import { newGame, joinGame } from "../../api/services/RoomService";
 import DynTable from "../../components/DynTable/DynTable";
 import NewGame from "./NewGame/NewGame";
 import { useSelector } from "react-redux";
 import useLobbySocket from "../../hooks/useLobbySocket";
 import { Grid, Paper, List, TextField, Button } from "@material-ui/core";
 import Message from "./Message";
+import { useHistory } from "react-router-dom";
 
 const Lobby = () => {
   const headers = [
@@ -30,19 +31,28 @@ const Lobby = () => {
   const user = useSelector((state) => state.userReducer);
   const [socketRooms, messages, addNewMessage] = useLobbySocket();
   const [message, setMessage] = useState("");
+  const history = useHistory();
 
   const handleNewItem = () => {
     setShowNewItem(true);
   };
 
   const handleNewGame = (title) => {
-    newGame(title, user.email).then((res) => {});
+    newGame(title, user.email).then((res) => {
+      history.push("/tictactoe/" + res.data._id);
+    });
   };
 
   const addMessage = () => {
     addNewMessage({ name: user.email, message: message });
     setMessage("");
   };
+
+  const handleJoinGame = id => {
+    joinGame(id).then(res => {
+      history.push("/tictactoe/" + res.data._id);
+    })
+  }
 
   return (
     <div style={{ flexGrow: 1 }}>
@@ -54,6 +64,7 @@ const Lobby = () => {
             rows={socketRooms}
             newItem={handleNewItem}
             searchBy="title"
+            handleAction={handleJoinGame}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
