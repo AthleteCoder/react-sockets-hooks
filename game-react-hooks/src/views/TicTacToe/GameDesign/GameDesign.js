@@ -38,8 +38,8 @@ const Row = ({ row, rowNumber, boxSelected }) => {
 
     return <Grid container>
 
-        {row.map((item, col) => <Grid item xs={4} key={col}>
-            <Paper onClick={() => boxSelected([col, rowNumber])} className={classes.paper}>{item === "O" ?
+        {row.data.map((item, col) => <Grid item xs={4} key={col}>
+            <Paper onClick={() => boxSelected([rowNumber, col])} className={classes.paper}>{item === "O" ?
                 <RadioButtonUncheckedIcon style={{ fontSize: "50px" }} />
                 : item === "X" ? <Close style={{ fontSize: "50px" }} /> : null}</Paper>
         </Grid>)}

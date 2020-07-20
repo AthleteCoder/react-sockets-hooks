@@ -66,18 +66,31 @@ exports.getGame = async (roomId) => {
     }
 }
 
-exports.selectBox = async (gameId, box) => {
+exports.selectBox = async (gameId, box, email) => {
     try {
+
+
         const game = await Game.findOne({
             _id: gameId
         });
-        game.gameState = [...game.gameState];
-        game.gameState[box[0]][box[1]] = "O";
-
-        await game.save();
-        Game.mark
-        return game;
+        const userIndex = game.players.findIndex(item => item.email === email);
+        console.log(game.playersOptions[userIndex])
+        if (game.gameState[box[0]].data[box[1]] === game.playersOptions[userIndex]) {
+            throw Error("Piece already selected!");
+        } else {
+            const save = await Game.findOneAndUpdate({
+                _id: gameId
+            }, {
+                $set: {
+                    [`gameState.${box[0]}.data.${box[1]}`]: game.playersOptions[userIndex]
+                }
+            }, {
+                useFindAndModify: false,
+                new: true
+            });
+            return save;
+        }
     } catch (e) {
-        throw Error("couldnt se piece")
+        throw Error("couldnt set piece")
     }
 }

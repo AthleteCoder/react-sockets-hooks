@@ -15,9 +15,12 @@ exports.initNewGame = (io, gameId) => {
             io.of(gameId).emit("message", msg);
         })
         socket.on("boxselected", async (data) => {
-            const game = await roomService.selectBox(data.gameId, data.box);
-            console.log(game)
-            io.of(gameId).emit("state", game.gameState);
+            try {
+                const game = await roomService.selectBox(data.gameId, data.box, data.email);
+                io.of(gameId).emit("stateupdate", game);
+            } catch (e) {
+                console.log(e.message)
+            }
         })
     })
 }

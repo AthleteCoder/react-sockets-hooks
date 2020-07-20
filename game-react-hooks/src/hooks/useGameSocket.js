@@ -27,7 +27,8 @@ const useGameSocket = (id) => {
     const selectBox = (box) => {
         socket.emit("boxselected", {
             gameId: id,
-            box: box
+            box: box,
+            email: user.email
         })
     }
 
@@ -44,6 +45,10 @@ const useGameSocket = (id) => {
             socket.on("joined", user => {
                 console.log(user)
                 setOpponents(prev => [...prev, user]);
+            })
+
+            socket.on("stateupdate", (game) => {
+                setGameData(game.gameState);
             })
         })()
 

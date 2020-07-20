@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-var CustomArray = new Schema([String]);
+var Cols = new Schema({
+    col: String,
+    data: [String]
+})
 
 const GameScheme = new Schema({
     createdBy: {
@@ -24,12 +27,21 @@ const GameScheme = new Schema({
         type: String
     },
     gameState: {
-        type: [CustomArray],
-        default: [
-            ['', '', ''],
-            ['', '', ''],
-            ['', '', '']
-        ]
+        type: [Cols],
+        default: [{
+            col: '0',
+            data: ['', '', '']
+        }, {
+            col: '1',
+            data: ['', '', '']
+        }, {
+            col: '2',
+            data: ['', '', '']
+        }]
+    },
+    playersOptions: {
+        type: [String],
+        default: ['X', 'O']
     },
     playerTurn: String
 }, {
