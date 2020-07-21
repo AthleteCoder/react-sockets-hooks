@@ -43,7 +43,11 @@ const GameScheme = new Schema({
         type: [String],
         default: ['X', 'O']
     },
-    playerTurn: String
+    playerTurn: String,
+    paused:{
+        type:Boolean,
+        default:true
+    }
 }, {
     timestamps: true
 });

@@ -48,11 +48,11 @@ const Lobby = () => {
     setMessage("");
   };
 
-  const handleJoinGame = id => {
-    joinGame(id).then(res => {
+  const handleJoinGame = (id) => {
+    joinGame(id).then((res) => {
       history.push("/tictactoe/" + res.data._id);
-    })
-  }
+    });
+  };
 
   return (
     <div style={{ flexGrow: 1 }}>
@@ -76,9 +76,8 @@ const Lobby = () => {
               display: "flex",
               justifyContent: "space-between",
               flexDirection: "column",
-            }}
-          >
-            <List style={{ overflow: "scroll" }}>
+            }}>
+            <List style={{ overflowY: "auto", overflowX: "hidden" }}>
               {messages.map((item, i) => (
                 <Message key={i} {...item} />
               ))}
@@ -103,8 +102,7 @@ const Lobby = () => {
                   <Button
                     onClick={addMessage}
                     variant="outlined"
-                    color="primary"
-                  >
+                    color="primary">
                     Send
                   </Button>
                 ),
