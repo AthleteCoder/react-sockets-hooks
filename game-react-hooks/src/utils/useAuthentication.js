@@ -1,9 +1,20 @@
-import { useEffect, useState } from "react";
-import { GetUser } from "../api/services/UserService";
-import { useCookies } from "react-cookie";
+import {
+  useEffect,
+  useState
+} from "react";
+import {
+  GetUser
+} from "../api/services/UserService";
+import {
+  useCookies
+} from "react-cookie";
 // import { connect } from "react-redux";
-import { fetchUser } from "../state/user/userTypes";
-import { useDispatch } from "react-redux";
+import {
+  fetchUser
+} from "../state/user/userTypes";
+import {
+  useDispatch
+} from "react-redux";
 
 const useAuthentication = () => {
   const [loading, setLoading] = useState(true);

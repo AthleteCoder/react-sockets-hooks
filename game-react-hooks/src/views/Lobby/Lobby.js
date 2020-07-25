@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { newGame, joinGame } from "../../api/services/RoomService";
+import { newGame } from "../../api/services/RoomService";
 import DynTable from "../../components/DynTable/DynTable";
 import NewGame from "./NewGame/NewGame";
 import { useSelector } from "react-redux";
@@ -49,9 +49,7 @@ const Lobby = () => {
   };
 
   const handleJoinGame = (id) => {
-    joinGame(id).then((res) => {
-      history.push("/tictactoe/" + res.data._id);
-    });
+    history.push("/tictactoe/" + id);
   };
 
   return (

@@ -26,7 +26,7 @@ const useLobbySocket = () => {
     });
     socket.on("deleteroom", (roomId) => {
       setLobbyRooms((prevRooms) =>
-        prevRooms.filter((item) => item._id !== roomId)
+        prevRooms.filter((item) => item._id === roomId)
       );
     });
     socket.on("message", (data) => {

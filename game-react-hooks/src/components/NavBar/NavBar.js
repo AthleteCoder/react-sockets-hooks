@@ -3,14 +3,13 @@ import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteCookie } from "../../utils/cookieService";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import { logoutUser } from "../../state/user/userTypes";
 
 const useStyles = makeStyles((theme) => ({
@@ -158,9 +157,9 @@ export default function NavBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
+          <Link to="/lobby">
             Material-UI
-          </Typography>
+          </Link>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             {isAuthenticated && (

@@ -1,6 +1,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const TicTacToe = new Schema({
+    won: {
+        type: Number,
+        default: 0
+    },
+    lost: {
+        type: Number,
+        default: 0
+    }
+})
+
+const Games = new Schema({
+    tictactoe: TicTacToe
+})
+
 const UserSchema = new Schema({
     email: {
         type: String,
@@ -18,6 +33,12 @@ const UserSchema = new Schema({
         type: String,
         default: 'basic',
         enum: ["basic", "supervisor", "admin"]
+    },
+    games: {
+        type: Games,
+        default: {
+            tictactoe: TicTacToe
+        }
     }
 });
 

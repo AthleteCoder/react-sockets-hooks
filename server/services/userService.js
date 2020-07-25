@@ -34,3 +34,11 @@ exports.getUserFromToken = async (email) => {
     if (!user) throw Error("User not found!");
     return user;
 }
+
+exports.playerWonTicTacToe = async (playerId) => {
+    await userUtil.raiseWonTicTacToe(playerId);
+}
+
+exports.playerLostTicTacToe = async (playerId) => {
+    await userUtil.raiseLostTicTacToe(playerId);
+}

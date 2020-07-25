@@ -1,5 +1,5 @@
-import React from "react";
-import { useRouteMatch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useRouteMatch, useHistory } from "react-router-dom";
 import useGameSocket from "../../hooks/useGameSocket";
 import Avatar from "@material-ui/core/Avatar";
 import Chip from "@material-ui/core/Chip";
@@ -7,11 +7,14 @@ import { Paper, Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { GameDesign } from "./GameDesign/GameDesign";
 import Alert from "@material-ui/lab/Alert";
+import useTimer from "../../hooks/useTimer";
 
 export const TicTacToe = () => {
   const match = useRouteMatch();
   const [gameState, selectBox] = useGameSocket(match.params.id);
   const user = useSelector((user) => user.userReducer);
+  const [timeLeft, setTimeLeft] = useTimer(60, 1000);
+  const history = useHistory();
 
   const handleBoxSelection = (box) => {
     if (!gameState.paused && gameState.playerTurn === user._id) {
@@ -19,7 +22,26 @@ export const TicTacToe = () => {
     }
   };
 
-  console.log(gameState);
+  const GameStateNotification = () => {
+    return gameState.paused ? (
+      <Alert severity="info">Waiting for other player to join... ({timeLeft})</Alert>
+    ) : gameState.playerTurn === user._id ? (
+      <Alert severity="success">Your Turn!</Alert>
+    ) : (
+          <Alert severity="warning">Your opponent turn!</Alert>
+        )
+  }
+
+  useEffect(() => {
+    if (timeLeft === 0 && gameState && gameState.players.length < 2) {
+      history.push("/lobby")
+    }
+    if (gameState && gameState.players.length >= 2 && timeLeft > 0) {
+      setTimeLeft(0);
+    }
+  }, [timeLeft, gameState, history]);
+
+  console.log(gameState)
 
   if (!gameState) return <h1>Loading...</h1>;
 
@@ -38,13 +60,11 @@ export const TicTacToe = () => {
       </Grid>
       <Grid>
         <Paper>
-          {gameState.paused ? (
-            <Alert severity="info">Waiting for other player to join...</Alert>
-          ) : gameState.playerTurn === user._id ? (
-            <Alert severity="success">Your Turn!</Alert>
-          ) : (
-            <Alert severity="warning">Your opponent turn!</Alert>
-          )}
+          {!gameState.won && <GameStateNotification />}
+          {gameState.won && (gameState.won === user._id ?
+            <Alert severity="success">You Won!!!</Alert> :
+            <Alert severity="error">You lost !</Alert>)}
+
           <GameDesign game={gameState} boxSelected={handleBoxSelection} />
         </Paper>
       </Grid>
